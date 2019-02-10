@@ -4,10 +4,12 @@ import os
 
 pygame.font.init()
 
-font = pygame.font.SysFont("Verdana", 22)
+font = pygame.font.SysFont("Verdana", 18)
 font_color = (255,255,255)
 font_background = (0,0,0)
-input_box = pygame.Rect(317,293,165,21)
+input_box = pygame.Rect(317,291,164,21)
+
+apodo = ""
 
 class Personaje(pygame.sprite.Sprite):
     def __init__(self, imagen, pos=[10,10], size=(100,100)):
@@ -41,8 +43,8 @@ class Boton(pygame.sprite.Sprite):
         self.alto = size[1]
 
 class Pantalla:
-    def __init__(self):
-        #self.manager = manager
+    def __init__(self,manager):
+        self.manager = manager
         self.sprites = {}
         self.canvas = pygame.display.set_mode((800, 600))
         """self.eventos =	{
@@ -80,26 +82,24 @@ class Pantalla:
             self.canvas.blit(sprite.image, surf.get_rect(topleft=(sprite.x, sprite.y)))
         pygame.display.flip()
     
-"""class Texto:
+class Texto:
     def __init__(self,texto,id):
         self.texto = texto
         self.id = id
 
 class ListaEscenarios(Pantalla):
-    def __init__(self):
-        Pantalla.__init__(self)
+    def __init__(self,manager):
+        Pantalla.__init__(self,manager)
         #Imagenes a usar
-        nom_fondos = ["fondo","palacio","aeropuerto","",""]
-        fondo = nom_fondos[0]
+        nom_fondos = ["fondo","palacio","aeropuerto","plaza(dia)","plaza(noche)"]
+        self.fondo = "fondo"
         fuente = pygame.font.SysFont("Arial",22)
-        texto_palacio = fuente.render("palacio",0,(244,255,250))
-        texto_aeropuerto = fuente.render("aeropuerto",0,(244,255,250))
-        texto_palacio = fuente.render("palacio",0,(244,255,250))
-        texto_palacio = fuente.render("palacio",0,(244,255,250))
+        self.texto_palacio = fuente.render("palacio",0,(244,255,250))
+        self.texto_aeropuerto = fuente.render("aeropuerto",0,(244,255,250))
+        self.texto_plazaD = fuente.render("plaza(dia)",0,(244,255,250))
+        self.texto_plazaN = fuente.render("plaza(noche)",0,(244,255,250))
         for nom in nom_fondos:
             self.agregar_sprite(nom,Fondo(nom))
-
-
 
         self.set_nombre_ventana("Escoger Escenario")
         self.handle_events()
@@ -107,15 +107,36 @@ class ListaEscenarios(Pantalla):
 
     def handle_events(self):
         x,y = pygame.mouse.get_pos()
+        if x >=378 and x <= 422 and y >= 100 and y <= 122:
+            self.fondo = "palacio"
+        elif x >=358 and x <= 442 and y >= 200 and y <= 222:
+            self.fondo = "aeropuerto"
+        elif x >=367 and x <= 433 and y >= 300 and y <= 322:
+            self.fondo = "plaza(dia)"
+        elif x >=360 and x <= 440 and y >= 400 and y <= 422:
+            self.fondo = "plaza(noche)"
+        else:
+            self.fondo = "fondo"
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit(); sys.exit()
+
+
+
 
     def render(self):
-        surf = pygame.Surface((fondo.ancho, fondo.alto))
-        self.canvas.blit(sprite.image, surf.get_rect(topleft=(sprite.x, sprite.y)))"""
+        surf = pygame.Surface((self.sprites[self.fondo].ancho, self.sprites[self.fondo].alto))
+        self.canvas.blit(self.sprites[self.fondo].image, surf.get_rect(topleft=(self.sprites[self.fondo].x,
+        self.sprites[self.fondo].y)))
+        self.canvas.blit(self.texto_palacio,(378,100))
+        self.canvas.blit(self.texto_aeropuerto,(358,200))
+        self.canvas.blit(self.texto_plazaD,(367,300))
+        self.canvas.blit(self.texto_plazaN,(360,400))
         pygame.display.flip()    
 
 class Pantalla2(Pantalla):
-    def __init__(self):
-        Pantalla.__init__(self)
+    def __init__(self,manager):
+        Pantalla.__init__(self,manager)
         #Imagenes a usar
         personaje = "hero"
         fondo = "Fondo2"        
@@ -155,10 +176,16 @@ class Login(Pantalla):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 salir_rect = self.sprites["salir"].image.get_rect()
                 salir_rect.topleft = (self.sprites["salir"].x,self.sprites["salir"].y)
+                jugar_rect = self.sprites["jugar"].image.get_rect()
+                jugar_rect.topleft = (self.sprites["jugar"].x,self.sprites["jugar"].y)
                 if input_box.collidepoint(event.pos):
                     self.active = True
                 elif salir_rect.collidepoint(event.pos):
                     pygame.quit(); sys.exit()
+                elif jugar_rect.collidepoint(event.pos):
+                    if self.text != "":
+                        apodo = self.text
+                        self.manager.cambiar_pantalla(ListaEscenarios(self.manager))
                 else:
                     self.active = False
             elif event.type == pygame.KEYDOWN:
