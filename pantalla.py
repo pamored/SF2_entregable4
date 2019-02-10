@@ -80,7 +80,7 @@ class Pantalla:
             self.canvas.blit(sprite.image, surf.get_rect(topleft=(sprite.x, sprite.y)))
         pygame.display.flip()
     
-class Texto:
+"""class Texto:
     def __init__(self,texto,id):
         self.texto = texto
         self.id = id
@@ -110,7 +110,7 @@ class ListaEscenarios(Pantalla):
 
     def render(self):
         surf = pygame.Surface((fondo.ancho, fondo.alto))
-        self.canvas.blit(sprite.image, surf.get_rect(topleft=(sprite.x, sprite.y)))
+        self.canvas.blit(sprite.image, surf.get_rect(topleft=(sprite.x, sprite.y)))"""
         pygame.display.flip()    
 
 class Pantalla2(Pantalla):
