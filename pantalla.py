@@ -257,23 +257,3 @@ class Login(Pantalla):
         txt_surface = font.render(self.text, True, font_color)
         self.canvas.blit(txt_surface, (input_box.x+3, input_box.y+3))
         pygame.display.flip()
-
-
-
-
-
-# Para crear una pantalla extra (o la de login) se crea una clase como Ejemplo pantalla y se llama 
-# desde game.py en la clase ScreenManager
-
-""" class Login(Pantalla):
-    def __init__(self, canvas):
-        Pantalla.__init__(self, canvas)
-        p1 = Personaje("images/personajes/hero/hero1.png")
-        self.agregar_sprite("hero1",p1)
-        self.handle_events()
-        self.update() """
-
-    #def handle_events(self):
-       # pass
-    #def update(self):
-        #self.sprites["hero1"].x += 100
