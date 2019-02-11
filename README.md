@@ -6,12 +6,19 @@
 <ul>Paolo Flores -- paoloflores</ul>
 <ul>Mario Llaque -- Dkad96</ul>
 
+<h2> Grupo Logicas </h2>
+<ul>Katherinne Huancayo -- </ul>
+<ul>Pamela Ore -- pamored</ul>
+<ul>Eduardo Moncada -- edusoldier1</ul>
+<ul>Aldo Shinzato -- aldoshinzato</ul>
+
 <p> </p>
 <p> </p>
 
 <h2>Comandos para la ejecución</h2>
-<p>python Engine.py hero Background</p>
-<p>python AbajoLosCorruptos.py</p>
+<p>python game.py</p>
+
+<p>Las imagenes estan en la carpeta 'images'</p>
 
 <p> </p>
 <p> </p>
