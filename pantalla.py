@@ -83,10 +83,10 @@ class ListaEscenarios(Pantalla):
         nom_fondos = ["fondo","palacio","aeropuerto","plaza(dia)","plaza(noche)"]
         self.fondo = "fondo"
         fuente = pygame.font.SysFont("Arial",22)
-        self.texto_palacio = fuente.render("Palacio de Gobierno",0,(127,127,127))
-        self.texto_aeropuerto = fuente.render("Aeropuerto Jorge Chavez",0,(127,127,127))
-        self.texto_plazaD = fuente.render("Plaza de Armas (Dia)",0,(127,127,127))
-        self.texto_plazaN = fuente.render("Plaza de Armas(Noche)",0,(127,127,127))
+        self.texto_palacio = fuente.render("Palacio de Gobierno",0,(166,166,192),(27,27,113))
+        self.texto_aeropuerto = fuente.render("Aeropuerto Jorge Chavez",0,(166,166,192),(27,27,113))
+        self.texto_plazaD = fuente.render("Plaza de Armas (Dia)",0,(166,166,192),(27,27,113))
+        self.texto_plazaN = fuente.render("Plaza de Armas(Noche)",0,(166,166,192),(27,27,113))
         for nom in nom_fondos:
             self.agregar_sprite(nom,Fondo(nom))
 
@@ -96,13 +96,13 @@ class ListaEscenarios(Pantalla):
 
     def handle_events(self):
         x,y = pygame.mouse.get_pos()
-        if x >=340 and x <= 495 and y >= 100 and y <= 122:
+        if x >=340 and x <= 505 and y >= 100 and y <= 122:
             self.fondo = "palacio"
-        elif x >=317 and x <= 500 and y >= 200 and y <= 222:
+        elif x >=317 and x <= 520 and y >= 200 and y <= 222:
             self.fondo = "aeropuerto"
-        elif x >=335 and x <= 490 and y >= 300 and y <= 322:
+        elif x >=335 and x <= 500 and y >= 300 and y <= 322:
             self.fondo = "plaza(dia)"
-        elif x >=333 and x <= 500 and y >= 400 and y <= 422:
+        elif x >=333 and x <= 518 and y >= 400 and y <= 422:
             self.fondo = "plaza(noche)"
         else:
             self.fondo = "fondo"
