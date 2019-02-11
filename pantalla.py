@@ -11,8 +11,8 @@ input_box = pygame.Rect(317,291,164,21)
 
 apodo = ""
 
-velocidad_v = 3
-velocidad_h = 5
+velocidad_v = 1
+velocidad_h = 2
 
 class Personaje(pygame.sprite.Sprite):
     def __init__(self, imagen, num, pos=[10,10], size=(100,100)):
@@ -71,9 +71,6 @@ class Pantalla:
         pass
 
     def update(self):
-        #for nombre in self.eventos:
-        #    self.eventos[nombre]=False
-            #print(self.eventos[nombre])
         pass 
 
     def render(self):
@@ -86,10 +83,10 @@ class ListaEscenarios(Pantalla):
         nom_fondos = ["fondo","palacio","aeropuerto","plaza(dia)","plaza(noche)"]
         self.fondo = "fondo"
         fuente = pygame.font.SysFont("Arial",22)
-        self.texto_palacio = fuente.render("Palacio de Gobierno",0,(244,255,250))
-        self.texto_aeropuerto = fuente.render("Aeropuerto Jorge Chavez",0,(244,255,250))
-        self.texto_plazaD = fuente.render("Plaza de Armas (Dia)",0,(244,255,250))
-        self.texto_plazaN = fuente.render("Plaza de Armas(Noche)",0,(244,255,250))
+        self.texto_palacio = fuente.render("Palacio de Gobierno",0,(127,127,127))
+        self.texto_aeropuerto = fuente.render("Aeropuerto Jorge Chavez",0,(127,127,127))
+        self.texto_plazaD = fuente.render("Plaza de Armas (Dia)",0,(127,127,127))
+        self.texto_plazaN = fuente.render("Plaza de Armas(Noche)",0,(127,127,127))
         for nom in nom_fondos:
             self.agregar_sprite(nom,Fondo(nom))
 
@@ -139,7 +136,7 @@ class PruebaJugabilidad(Pantalla):
         self.sprites_persona = []
         for i in range(3):
             img = pygame.image.load(os.getcwd() + "/images/personajes/belaunde/belaunde camina"+str(i+1)+".png")
-            img = pygame.transform.scale(img,(100,100))
+            #img = pygame.transform.scale(img,(100,100))
             self.sprites_persona.append(img)
         self.id = 0
         self.imagen = self.sprites_persona[0]
@@ -152,7 +149,7 @@ class PruebaJugabilidad(Pantalla):
 
     def handle_events(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w] and self.rect_persona.y > 300:
+        if keys[pygame.K_w] and self.rect_persona.y > 265:
             self.id += 1
             if self.id > 2:
                 self.id = 0
@@ -161,7 +158,7 @@ class PruebaJugabilidad(Pantalla):
             else:
                 self.imagen = self.sprites_persona[self.id]
             self.rect_persona.y -= velocidad_v
-        if keys[pygame.K_s] and self.rect_persona.y < 500:
+        if keys[pygame.K_s] and self.rect_persona.y < 465:
             self.id += 1
             if self.id > 2:
                 self.id = 0
@@ -177,7 +174,7 @@ class PruebaJugabilidad(Pantalla):
             self.imagen = pygame.transform.flip(self.sprites_persona[self.id],True,False)
             self.izquierda = True
             self.rect_persona.x -= velocidad_h
-        if keys[pygame.K_d] and self.rect_persona.x < 700:
+        if keys[pygame.K_d] and self.rect_persona.x < 742:
             self.id += 1
             if self.id > 2:
                 self.id = 0
