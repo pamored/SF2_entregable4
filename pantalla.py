@@ -10,9 +10,12 @@ font_background = (0,0,0)
 input_box = pygame.Rect(317,291,164,21)
 
 apodo = ""
+<<<<<<< HEAD
 
 velocidad_v = 3
 velocidad_h = 5
+=======
+>>>>>>> 57090992b2599d1b7ee01a477349b6cde4f41739
 
 class Personaje(pygame.sprite.Sprite):
     def __init__(self, imagen, num, pos=[10,10], size=(100,100)):
@@ -79,6 +82,14 @@ class Pantalla:
     def render(self):
         pass
     
+<<<<<<< HEAD
+=======
+class Texto:
+    def __init__(self,texto,id):
+        self.texto = texto
+        self.id = id
+
+>>>>>>> 57090992b2599d1b7ee01a477349b6cde4f41739
 class ListaEscenarios(Pantalla):
     def __init__(self,manager):
         Pantalla.__init__(self,manager)
@@ -86,10 +97,17 @@ class ListaEscenarios(Pantalla):
         nom_fondos = ["fondo","palacio","aeropuerto","plaza(dia)","plaza(noche)"]
         self.fondo = "fondo"
         fuente = pygame.font.SysFont("Arial",22)
+<<<<<<< HEAD
         self.texto_palacio = fuente.render("Palacio de Gobierno",0,(244,255,250))
         self.texto_aeropuerto = fuente.render("Aeropuerto Jorge Chavez",0,(244,255,250))
         self.texto_plazaD = fuente.render("Plaza de Armas (Dia)",0,(244,255,250))
         self.texto_plazaN = fuente.render("Plaza de Armas(Noche)",0,(244,255,250))
+=======
+        self.texto_palacio = fuente.render("palacio",0,(244,255,250))
+        self.texto_aeropuerto = fuente.render("aeropuerto",0,(244,255,250))
+        self.texto_plazaD = fuente.render("plaza(dia)",0,(244,255,250))
+        self.texto_plazaN = fuente.render("plaza(noche)",0,(244,255,250))
+>>>>>>> 57090992b2599d1b7ee01a477349b6cde4f41739
         for nom in nom_fondos:
             self.agregar_sprite(nom,Fondo(nom))
 
@@ -99,6 +117,7 @@ class ListaEscenarios(Pantalla):
 
     def handle_events(self):
         x,y = pygame.mouse.get_pos()
+<<<<<<< HEAD
         if x >=340 and x <= 495 and y >= 100 and y <= 122:
             self.fondo = "palacio"
         elif x >=317 and x <= 500 and y >= 200 and y <= 222:
@@ -106,12 +125,22 @@ class ListaEscenarios(Pantalla):
         elif x >=335 and x <= 490 and y >= 300 and y <= 322:
             self.fondo = "plaza(dia)"
         elif x >=333 and x <= 500 and y >= 400 and y <= 422:
+=======
+        if x >=378 and x <= 422 and y >= 100 and y <= 122:
+            self.fondo = "palacio"
+        elif x >=358 and x <= 442 and y >= 200 and y <= 222:
+            self.fondo = "aeropuerto"
+        elif x >=367 and x <= 433 and y >= 300 and y <= 322:
+            self.fondo = "plaza(dia)"
+        elif x >=360 and x <= 440 and y >= 400 and y <= 422:
+>>>>>>> 57090992b2599d1b7ee01a477349b6cde4f41739
             self.fondo = "plaza(noche)"
         else:
             self.fondo = "fondo"
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit(); sys.exit()
+<<<<<<< HEAD
             elif event.type == pygame.MOUSEBUTTONUP:
                 if x >=340 and x <= 495 and y >= 100 and y <= 122:
                     self.manager.cambiar_pantalla(PruebaJugabilidad(self.manager,self.sprites[self.fondo]))
@@ -121,11 +150,17 @@ class ListaEscenarios(Pantalla):
                     self.manager.cambiar_pantalla(PruebaJugabilidad(self.manager,self.sprites[self.fondo]))
                 elif x >=333 and x <= 500 and y >= 400 and y <= 422:
                     self.manager.cambiar_pantalla(PruebaJugabilidad(self.manager,self.sprites[self.fondo]))
+=======
+
+
+
+>>>>>>> 57090992b2599d1b7ee01a477349b6cde4f41739
 
     def render(self):
         surf = pygame.Surface((self.sprites[self.fondo].ancho, self.sprites[self.fondo].alto))
         self.canvas.blit(self.sprites[self.fondo].image, surf.get_rect(topleft=(self.sprites[self.fondo].x,
         self.sprites[self.fondo].y)))
+<<<<<<< HEAD
         self.canvas.blit(self.texto_palacio,(340,100))
         self.canvas.blit(self.texto_aeropuerto,(317,200))
         self.canvas.blit(self.texto_plazaD,(335,300))
@@ -146,6 +181,23 @@ class PruebaJugabilidad(Pantalla):
         self.rect_persona = self.imagen.get_rect()
         self.rect_persona.topleft = (0,400)
         self.izquierda = False
+=======
+        self.canvas.blit(self.texto_palacio,(378,100))
+        self.canvas.blit(self.texto_aeropuerto,(358,200))
+        self.canvas.blit(self.texto_plazaD,(367,300))
+        self.canvas.blit(self.texto_plazaN,(360,400))
+        pygame.display.flip()    
+
+class Pantalla2(Pantalla):
+    def __init__(self,manager):
+        Pantalla.__init__(self,manager)
+        #Imagenes a usar
+        personaje = "hero"
+        fondo = "Fondo2"        
+        p1 = Personaje(imagen = personaje, pos=[110,110])        
+        f1 = Fondo(fondo = fondo, pos = [100, 100])        
+
+>>>>>>> 57090992b2599d1b7ee01a477349b6cde4f41739
         self.set_nombre_ventana("Prueba de jugabilidad")
         self.handle_events()
         self.update()
