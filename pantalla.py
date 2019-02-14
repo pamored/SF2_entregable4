@@ -13,13 +13,13 @@ fondo = ""
 apodo = ""
 personaje = ""
 
-velocidad_v = 1
-velocidad_h = 2
+velocidad_v = 3
+velocidad_h = 5
 
 class Personaje(pygame.sprite.Sprite):
-    def __init__(self, imagen, num, pos=[10,10], size=(100,100)):
+    def __init__(self, imagen, num, pos=[10,10]):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(os.getcwd() + "/images/personajes/" + imagen + "/" + imagen + " camina"+str(num)+".png"
+        self.image = pygame.image.load(os.getcwd() + "/images/personajes/" + imagen + "/" + imagen + " camina"+str(num)+".png")
         self.image_rect = self.image.get_rect()
         self.image_rect.topleft = (pos)
         self.id = imagen
@@ -50,16 +50,6 @@ class Pantalla:
         self.manager = manager
         self.sprites = {}
         self.canvas = pygame.display.set_mode((800, 600))
-        """self.eventos =	{
-        "Retroceder": False, #Pantalla anterior
-        "Arriba": False,
-        "Abajo": False,
-        "Derecha": False,
-        "Izquierda": False,
-        "Salir": False,        
-        "POSX": 0,
-        "POSY": 0
-        }"""
 
     def set_nombre_ventana(self, titulo):
         pygame.display.set_caption(titulo)
@@ -84,6 +74,7 @@ class ListaEscenarios(Pantalla):
         Pantalla.__init__(self,manager)
         #Imagenes a usar
         nom_fondos = ["fondo","palacio","aeropuerto","plaza(dia)","plaza(noche)"]
+        global fondo
         fondo = "fondo"
         fuente = pygame.font.SysFont("Arial",22)
         self.textos = []
@@ -99,14 +90,15 @@ class ListaEscenarios(Pantalla):
         self.update()
 
     def handle_events(self):
+        global fondo
         x,y = pygame.mouse.get_pos()
-        if x >=300 and x <= 505 and y >= 100 and y <= 122:
+        if x >=300 and x <= 448 and y >= 100 and y <= 122:
             fondo = self.sprites["palacio"].id
-        elif x >=300 and x <= 520 and y >= 200 and y <= 222:
+        elif x >=300 and x <= 490 and y >= 200 and y <= 222:
             fondo = self.sprites["aeropuerto"].id
-        elif x >=300 and x <= 500 and y >= 300 and y <= 322:
+        elif x >=300 and x <= 450 and y >= 300 and y <= 322:
             fondo = self.sprites["plaza(dia)"].id
-        elif x >=300 and x <= 518 and y >= 400 and y <= 422:
+        elif x >=300 and x <= 472 and y >= 400 and y <= 422:
             fondo = self.sprites["plaza(noche)"].id
         else:
             fondo = "fondo"
@@ -114,25 +106,22 @@ class ListaEscenarios(Pantalla):
             if event.type == pygame.QUIT:
                 pygame.quit(); sys.exit()
             elif event.type == pygame.MOUSEBUTTONUP:
-                if x >=300 and x <= 495 and y >= 100 and y <= 122:
+                if x >=300 and x <= 420 and y >= 100 and y <= 122:
                     self.manager.cambiar_pantalla(ListaPersonajes(self.manager))
                 elif x >=300 and x <= 500 and y >= 200 and y <= 222:
                     self.manager.cambiar_pantalla(ListaPersonajes(self.manager))
-                elif x >=300 and x <= 490 and y >= 300 and y <= 322:
+                elif x >=300 and x <= 400 and y >= 300 and y <= 322:
                     self.manager.cambiar_pantalla(ListaPersonajes(self.manager))
-                elif x >=300 and x <= 500 and y >= 400 and y <= 422:
+                elif x >=300 and x <= 480 and y >= 400 and y <= 422:
                     self.manager.cambiar_pantalla(ListaPersonajes(self.manager))
 
     def render(self):
+        global fondo
         surf = pygame.Surface((self.sprites[fondo].ancho, self.sprites[fondo].alto))
         self.canvas.blit(self.sprites[fondo].image, surf.get_rect(topleft=(self.sprites[fondo].x,
         self.sprites[fondo].y)))
-        for i in len(self.textos):
+        for i in range(len(self.textos)):
             self.canvas.blit(self.textos[i],(300,(i+1)*100))
-        """self.canvas.blit(self.texto_palacio,(340,100))
-        self.canvas.blit(self.texto_aeropuerto,(317,200))
-        self.canvas.blit(self.texto_plazaD,(335,300))
-        self.canvas.blit(self.texto_plazaN,(333,400))"""
         pygame.display.flip()    
 
 class ListaPersonajes(Pantalla):
@@ -154,13 +143,14 @@ class ListaPersonajes(Pantalla):
         self.textos.append(fuente.render("José de la Riva Agüero",0,(166,166,192),(27,27,113)))
         self.textos.append(fuente.render("Alejandro Toledo",0,(166,166,192),(27,27,113)))
         for nom in nom_personajes:
-            self.agregar_sprite(nom,Personaje(nom,1))
+            self.agregar_sprite(nom,Personaje(nom,1,[450,250]))
 
         self.set_nombre_ventana("Escoger Personaje")
         self.handle_events()
         self.update()
 
     def handle_events(self):
+        global personaje
         x,y = pygame.mouse.get_pos()
         if x >=200 and x <= 300 and y >= 50 and y <= 72:
             personaje = self.sprites["alan"].id
@@ -210,37 +200,29 @@ class ListaPersonajes(Pantalla):
                     self.manager.cambiar_pantalla(Juego(self.manager))
 
     def render(self):
-        surf = pygame.Surface((self.sprites[fondo].ancho, self.sprites[fondo].alto))
-        self.canvas.blit(self.sprites[fondo].image, surf.get_rect(topleft=(self.sprites[fondo].x,
-        self.sprites[fondo].y)))
-        for i in len(self.textos):
+        surf = pygame.Surface((self.sprites["fondo"].ancho, self.sprites["fondo"].alto))
+        self.canvas.blit(self.sprites["fondo"].image, surf.get_rect(topleft=(self.sprites["fondo"].x,
+        self.sprites["fondo"].y)))
+        if personaje != "":
+            self.canvas.blit(self.sprites[personaje].image, self.sprites[personaje].image_rect)
+        for i in range(len(self.textos)):
             self.canvas.blit(self.textos[i],(200,(i+1)*50))
-        """self.canvas.blit(self.texto_palacio,(340,100))
-        self.canvas.blit(self.texto_aeropuerto,(317,200))
-        self.canvas.blit(self.texto_plazaD,(335,300))
-        self.canvas.blit(self.texto_plazaN,(333,400))
-        self.canvas.blit(self.texto_plazaN,(333,400))
-        self.canvas.blit(self.texto_plazaN,(333,400))
-        self.canvas.blit(self.texto_plazaN,(333,400))
-        self.canvas.blit(self.texto_plazaN,(333,400))
-        self.canvas.blit(self.texto_plazaN,(333,400))
-        self.canvas.blit(self.texto_plazaN,(333,400))"""
         pygame.display.flip()
 
 class Juego(Pantalla):
     def __init__(self,manager):
+        global personaje, fondo
         Pantalla.__init__(self,manager)
         self.agregar_sprite("fondo",Fondo(fondo))
         sprites_persona = []
 
         for i in range(3):
-            img = pygame.image.load(os.getcwd() + "/images/personajes/"+personaje+"/"+personaje+" camina"+str(i+1)+".png")
-            sprites_persona.append(img)
+            sprites_persona.append(Personaje(personaje,(i+1)))
 
         self.agregar_sprite(personaje,sprites_persona)
         self.id = 0
-        self.imagen = self.sprites_persona[0]
-        self.rect_persona = self.imagen.get_rect()
+        self.imagen = self.sprites[personaje][0].image
+        self.rect_persona = self.sprites[personaje][0].image_rect
         self.rect_persona.topleft = (0,400)
         self.izquierda = False
         self.set_nombre_ventana("Prueba de jugabilidad")
@@ -248,37 +230,38 @@ class Juego(Pantalla):
         self.update()
 
     def handle_events(self):
+        global personaje
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w] and self.rect_persona.y > 265:
+        if keys[pygame.K_w] and self.rect_persona.y > (400-self.rect_persona.height):
             self.id += 1
             if self.id > 2:
                 self.id = 0
             if self.izquierda:
-                self.imagen = pygame.transform.flip(self.sprites_persona[self.id],True,False)
+                self.imagen = pygame.transform.flip(self.sprites[personaje][self.id].image,True,False)
             else:
-                self.imagen = self.sprites_persona[self.id]
+                self.imagen = self.sprites[personaje][self.id].image
             self.rect_persona.y -= velocidad_v
-        if keys[pygame.K_s] and self.rect_persona.y < 465:
+        if keys[pygame.K_s] and self.rect_persona.y < (600-self.rect_persona.height):
             self.id += 1
             if self.id > 2:
                 self.id = 0
             if self.izquierda:
-                self.imagen = pygame.transform.flip(self.sprites_persona[self.id],True,False)
+                self.imagen = pygame.transform.flip(self.sprites[personaje][self.id].image,True,False)
             else:
-                self.imagen = self.sprites_persona[self.id]
+                self.imagen = self.sprites[personaje][self.id].image
             self.rect_persona.y += velocidad_v
         if keys[pygame.K_a] and self.rect_persona.x > 0:
             self.id += 1
             if self.id > 2:
                 self.id = 0
-            self.imagen = pygame.transform.flip(self.sprites_persona[self.id],True,False)
+            self.imagen = pygame.transform.flip(self.sprites[personaje][self.id].image,True,False)
             self.izquierda = True
             self.rect_persona.x -= velocidad_h
-        if keys[pygame.K_d] and self.rect_persona.x < 742:
+        if keys[pygame.K_d] and self.rect_persona.x < (800-self.rect_persona.width):
             self.id += 1
             if self.id > 2:
                 self.id = 0
-            self.imagen = self.sprites_persona[self.id]
+            self.imagen = self.sprites[personaje][self.id].image
             self.izquierda = False
             self.rect_persona.x += velocidad_h
 
@@ -300,7 +283,6 @@ class Login(Pantalla):
         coordenadas = {
         "salir": (74,508),
         "jugar": (335,320),
-        #"olvide": (597,445),
         "registrar": (597,405),
         "creditos": (597,511)}
 
@@ -313,12 +295,11 @@ class Login(Pantalla):
         for nom,cor in coordenadas.items():
             self.sprites[nom] = Boton(nom,cor)
         
-        #self.sprites["olvide"].alto = 40
     
     def handle_events(self):
         for event in pygame.event.get():
+            global apodo
             if event.type == pygame.QUIT:
-                #self.eventos["Salir"]=True
                 pygame.quit(); sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 salir_rect = self.sprites["salir"].image.get_rect()
@@ -338,8 +319,9 @@ class Login(Pantalla):
             elif event.type == pygame.KEYDOWN:
                 if self.active:
                     if event.key == pygame.K_RETURN:
-                        print(self.text)
-                        self.text = ""
+                        if self.text != "":
+                            apodo = self.text
+                            self.manager.cambiar_pantalla(ListaEscenarios(self.manager))
                     elif event.key == pygame.K_BACKSPACE:
                         self.text = self.text[:-1]
                     else:
