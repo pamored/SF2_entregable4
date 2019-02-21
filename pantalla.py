@@ -307,8 +307,8 @@ class Juego(Pantalla):
 
 class Login(Pantalla):
     def __init__(self,manager):
-        pygame.mixer.music.load(os.getcwd()+"/sonidos/fondo_inicio.mp3")
-        pygame.mixer.music.play(-1)
+        #pygame.mixer.music.load(os.getcwd()+"/sonidos/fondo_inicio.mp3")
+        #pygame.mixer.music.play(-1)
         Pantalla.__init__(self,manager)
         self.text = ""
         self.active = False
