@@ -1,6 +1,6 @@
 import pygame, random, sys, os, time
 from red import Red
-from cliente import listar, eliminar, insertar, actualizar
+#from cliente import listar, eliminar, insertar, actualizar
 
 pygame.font.init()
 
@@ -178,7 +178,8 @@ class ListaPersonajes(Pantalla):
 class Juego(Pantalla):
     def __init__(self,manager):
         pygame.mixer.music.stop()
-        pygame.mixer.music.load(pygame.image.load(os.getcwd()+"/sonidos/fondo_batalla.mp3")
+        pygame.mixer.music.load(os.getcwd()+"/sonidos/fondo_batalla.mp3")
+        pygame.mixer.music.play(-1)
         self.net = Red()
         global personaje1, personaje2, fondo
         Pantalla.__init__(self,manager)
@@ -201,7 +202,7 @@ class Juego(Pantalla):
         self.set_nombre_ventana("Jugando")
         self.handle_events()
         self.update()
-        self.num = insertar(apodo,0)
+        #self.num = insertar(apodo,0)
 
     
     @staticmethod
@@ -253,8 +254,8 @@ class Juego(Pantalla):
                 if event.key == pygame.K_b:
                     if self.jugador2 != None:
                         if self.jugador1.image_rect.colliderect(self.jugador2.image_rect) and self.jugador1.image_rect.y >= (self.jugador2.image_rect.y-10) and self.jugador1.image_rect.y <= (self.jugador2.image_rect.y+10):
-                            pygame.mixer.music.load(pygame.image.load(os.getcwd()+"/sonidos/golpe.mp3")
-                            pygame.mixer.music.play()
+                            s = pygame.mixer.Sound(os.getcwd() + "/sonidos/golpe.mp3")
+                            pygame.mixer.Sound.play(s)
                             self.jugador2.bajar_vida()
                             self.jugador1.score += 5
                         
@@ -267,14 +268,14 @@ class Juego(Pantalla):
             self.canvas.blit(texto,(350,0))
             time.sleep(10)
             self.manager.cambiar_pantalla(Login(self.manager))
-            print(actualizar(self.num,apodo,self.jugador1.score))
+            #print(actualizar(self.num,apodo,self.jugador1.score))
         elif self.jugador2.vida <= 0:
             fuente = pygame.font.SysFont("Verdana", 30)
             texto = fuente.render("GANASTE, "+apodo,0,(0,0,0))
             self.canvas.blit(texto,(350,0))
             time.sleep(10)
             self.manager.cambiar_pantalla(Login(self.manager))
-            print(actualizar(self.num,apodo,self.jugador1.score))
+            #print(actualizar(self.num,apodo,self.jugador1.score))
 
     def update(self):
         global personaje2
@@ -306,7 +307,8 @@ class Juego(Pantalla):
 
 class Login(Pantalla):
     def __init__(self,manager):
-        pygame.mixer.music.load(pygame.image.load(os.getcwd()+"/sonidos/fondo_inicio.mp3")
+        pygame.mixer.music.load(os.getcwd()+"/sonidos/fondo_inicio.mp3")
+        pygame.mixer.music.play(-1)
         Pantalla.__init__(self,manager)
         self.text = ""
         self.active = False
