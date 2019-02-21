@@ -1,0 +1,82 @@
+{
+	"variables": [],
+	"info": {
+		"name": "puntuaciones",
+		"_postman_id": "56cf8385-3d5c-a5e8-1c46-9f605f38c405",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:4000/score/list",
+			"request": {
+				"url": "localhost:4000/score/list",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/score/add",
+			"request": {
+				"url": "localhost:4000/score/add",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Pepito",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "score",
+							"value": "20",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/score/edit",
+			"request": {
+				"url": "localhost:4000/score/edit",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "9",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "carlos",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "score",
+							"value": "200",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
