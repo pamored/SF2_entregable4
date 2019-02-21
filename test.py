@@ -3,8 +3,7 @@ from cliente import insertar
 
 if __name__ == '__main__':
     base_url = "http://localhost:4000/" #trabjar como una variable global 
-       
-
+    
     #Agregar
     #agr = insertar(base_url,"Alexis","301")
     #print(agr)
