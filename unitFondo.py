@@ -47,6 +47,7 @@ class RectTypeTest(unittest.TestCase):
         self.assertEqual((r.right, r.centery), r.midright)
 
 
+
     def test_left(self):
         """Changing the left attribute moves the rect and does not change
            the rect's width
