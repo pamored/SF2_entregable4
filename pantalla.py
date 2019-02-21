@@ -127,6 +127,8 @@ class ListaEscenarios(Pantalla):
         surf = pygame.Surface((self.sprites["fondo"].ancho, self.sprites["fondo"].alto))
         self.canvas.blit(self.sprites["fondo"].image, surf.get_rect(topleft=(self.sprites["fondo"].x,
         self.sprites["fondo"].y)))
+        if self.id != None:
+            pygame.draw.rect(self.canvas,(255,127,80),(self.ubicaciones[self.id][0],self.ubicaciones[self.id][1],80,150),2)
 
         pygame.display.flip()    
 
