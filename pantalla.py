@@ -97,39 +97,45 @@ class ListaEscenarios(Pantalla):
             if event.type == pygame.QUIT:
                 pygame.quit(); sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                print(pygame.mouse.get_pos())
-                """if x >=17 and x <= 178 and y >= 73 and y <= 196:
+                x,y = pygame.mouse.get_pos()
+                print(x,y)
+                if x >=17 and x <= 178 and y >= 73 and y <= 193:
                     self.id = 0
-                elif x >=300 and x <= 500 and y >= 74 and y <= 222:
-                    self.id = 0
-                elif x >=300 and x <= 400 and y >= 77 and y <= 322:
-                    self.id = 0
-                elif x >=300 and x <= 480 and y >= 77 and y <= 422:
-                    self.id = 0
-                elif x >=300 and x <= 500 and y >= 230 and y <= 222:
-                    self.id = 0
-                elif x >=300 and x <= 500 and y >= 231 and y <= 222:
-                    self.id = 0
-                elif x >=300 and x <= 500 and y >= 234 and y <= 222:
-                    self.id = 0
-                elif x >=300 and x <= 500 and y >= 235 and y <= 222:
-                    self.id = 0
-                elif x >=300 and x <= 500 and y >= 402 and y <= 222:
-                    self.id = 0
-                elif x >=300 and x <= 500 and y >= 200 and y <= 222:
-                    self.id = random.randint(0,9)
-                elif x >=300 and x <= 500 and y >= 200 and y <= 222:
+                elif x >=202 and x <= 362 and y >= 74 and y <= 194:
+                    self.id = 1
+                elif x >=391 and x <= 551 and y >= 77 and y <= 197:
+                    self.id = 2
+                elif x >=581 and x <= 741 and y >= 77 and y <= 197:
+                    self.id = 3
+                elif x >=16 and x <= 177 and y >= 230 and y <= 350:
+                    self.id = 4
+                elif x >=200 and x <= 360 and y >= 231 and y <= 351:
+                    self.id = 5
+                elif x >=389 and x <= 549 and y >= 234 and y <= 354:
+                    self.id = 6
+                elif x >=582 and x <= 742 and y >= 235 and y <= 355:
+                    self.id = 7
+                elif x >=14 and x <= 174 and y >= 402 and y <= 522:
+                    self.id = 8
+                elif x >=432 and x <= 591 and y >= 519 and y <= 570:
+                    self.id = random.randint(0,8)
+                elif x >=618 and x <= 785 and y >= 523 and y <= 564:
                     if self.id != None:
                         fondo = self.lista_escenarios[self.id]
-                        """
+                        self.manager.cambiar_pantalla(ListaPersonajes(self.manager))
+                        
 
     def render(self):
         surf = pygame.Surface((self.sprites["fondo"].ancho, self.sprites["fondo"].alto))
         self.canvas.blit(self.sprites["fondo"].image, surf.get_rect(topleft=(self.sprites["fondo"].x,
         self.sprites["fondo"].y)))
         if self.id != None:
+<<<<<<< HEAD
             pygame.draw.rect(self.canvas,(255,127,80),(self.ubicaciones[self.id][0],self.ubicaciones[self.id][1],80,150),2)
 
+=======
+            pygame.draw.rect(self.canvas,(255,127,80),(self.ubicaciones[self.id][0],self.ubicaciones[self.id][1],160,120),2)
+>>>>>>> 0f9b9f4d13a358028397546b3f8f636324c74e26
         pygame.display.flip()    
 
 class ListaPersonajes(Pantalla):
