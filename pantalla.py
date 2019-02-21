@@ -1,4 +1,4 @@
-import pygame, random, sys, os
+import pygame, random, sys, os, time
 from red import Red
 
 pygame.font.init()
@@ -17,31 +17,17 @@ velocidad_v = 3
 velocidad_h = 5
 
 class Jugador(pygame.sprite.Sprite):
-    def __init__(self, imagen,num,enemigo=None):
+    def __init__(self, imagen,num):
         pygame.sprite.Sprite.__init__(self)
         self.persona_viva = []
         for i in range(3):
-            self.persona_viva.append(pygame.image.load(os.getcwd() + "/images/personajes/" + imagen + "/" + imagen + " camina"+(num+1)+".png"))
+            self.persona_viva.append(pygame.image.load(os.getcwd() + "/images/personajes/" + imagen + "/" + imagen + " camina"+str(i+1)+".png"))
         self.image_rect = self.persona_viva[0].get_rect()
         self.image_rect.topleft = (0,400) if num == "jugador1" else (800-self.image_rect.width,400)
-        self.tomate = Bala("tomate")
         self.vida = 100
-        self.enemigo = enemigo
 
-    def bajar_vida(self,bala):
-        if bala == "tomate":
-            self.vida -= 5
-        else:
-            self.vida -= 15
-
-class Bala(pygame.sprite.Sprite):
-    def __init__(self,bala):
-        self.bala = pygame.image.load(os.getcwd()+"images/disparos/"+bala+".png")
-        self.rect_bala = self.bala.get_rect()
-        self.visible = False
-
-    def disparo(self):
-        pass
+    def bajar_vida(self):
+            self.vida -= 8
 
 class Fondo(pygame.sprite.Sprite):
     def __init__(self, fondo, pos=[0,0], size=(800,600)):
@@ -81,13 +67,11 @@ class Pantalla:
 class ListaEscenarios(Pantalla):
     def __init__(self,manager):
         Pantalla.__init__(self,manager)
-        self.lista_escenarios = ["","plaza","ulima","","nazca","machu","","aeropuerto","plaza"]
+        self.lista_escenarios = ["unmsm","plaza","ulima","heroes","nazca","machu","bolognesi","aeropuerto","congreso"]
         self.ubicaciones = [(17,73),(202,74),(391,77),(581,77),(16,230),(200,231),(389,234),(582,235),(14,402)]
         self.id = None
         self.agregar_sprite("fondo",Fondo("escenarios"))
         self.set_nombre_ventana("Escoger Escenario")
-        #self.rect_pos = (0,0)
-        #self.rect = pygame.draw.rect(self.canvas,(255,127,80),(self.rect_pos,))
         self.handle_events()
         self.update()
 
@@ -98,7 +82,6 @@ class ListaEscenarios(Pantalla):
                 pygame.quit(); sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 x,y = pygame.mouse.get_pos()
-                print(x,y)
                 if x >=17 and x <= 178 and y >= 73 and y <= 193:
                     self.id = 0
                 elif x >=202 and x <= 362 and y >= 74 and y <= 194:
@@ -124,18 +107,12 @@ class ListaEscenarios(Pantalla):
                         fondo = self.lista_escenarios[self.id]
                         self.manager.cambiar_pantalla(ListaPersonajes(self.manager))
                         
-
     def render(self):
         surf = pygame.Surface((self.sprites["fondo"].ancho, self.sprites["fondo"].alto))
         self.canvas.blit(self.sprites["fondo"].image, surf.get_rect(topleft=(self.sprites["fondo"].x,
         self.sprites["fondo"].y)))
         if self.id != None:
-<<<<<<< HEAD
-            pygame.draw.rect(self.canvas,(255,127,80),(self.ubicaciones[self.id][0],self.ubicaciones[self.id][1],80,150),2)
-
-=======
             pygame.draw.rect(self.canvas,(255,127,80),(self.ubicaciones[self.id][0],self.ubicaciones[self.id][1],160,120),2)
->>>>>>> 0f9b9f4d13a358028397546b3f8f636324c74e26
         pygame.display.flip()    
 
 class ListaPersonajes(Pantalla):
@@ -143,7 +120,7 @@ class ListaPersonajes(Pantalla):
         Pantalla.__init__(self,manager)
         self.agregar_sprite("fondo",Fondo("jugadores"))
         #Imagenes a usar
-        self.nom_personajes = ["alan","belaunde","fujimori","grau","jose","ollanta","pierola","ppk","riva","toledo"]
+        self.nom_personajes = ["alan","toledo","fujimori","ollanta","ppk","grau","jose","pierola","belaunde","riva"]
         self.ubicaciones = [(56,134),(144,134),(232,134),(320,134),(408,134),(0,342),(85,342),(175,342),(263,342),(352,342)]
         self.id = None
 
@@ -152,14 +129,13 @@ class ListaPersonajes(Pantalla):
         self.update()
 
     def handle_events(self):
-        global personaje
+        global personaje1
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit(); sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 x,y = pygame.mouse.get_pos()
-                print (x)
                 if x >=56 and x <= 134 and y >= 135 and y <= 285:
                     self.id = 0
                 elif x >=144 and x <= 222 and y >= 135 and y <= 285:
@@ -184,7 +160,7 @@ class ListaPersonajes(Pantalla):
                     self.id = random.randint(0,9)
                 elif x >=30 and x <= 199 and y >= 544 and y <= 600:
                     if self.id != None:
-                        personaje = self.nom_personajes[self.id]
+                        personaje1 = self.nom_personajes[self.id]
                         self.manager.cambiar_pantalla(Juego(self.manager))
                 else:
                     self.id = None
@@ -204,74 +180,118 @@ class Juego(Pantalla):
         Pantalla.__init__(self,manager)
         self.agregar_sprite("fondo",Fondo(fondo))
         jugador = "jugador1" if self.net.id == "0" else "jugador2"
-        jugador2 = "jugador2" if jugador == "jugador1" else "jugador1"
-        personaje2 = self.parse_data(self.net.send(str(self.net.id) + ":" + personaje1))
+        self.jugador2 = "jugador2" if jugador == "jugador1" else "jugador1"
         self.jugador1 = Jugador(personaje1,jugador)
-        self.jugador2 = Jugador(personaje2,jugador2)
-        self.jugador1.enemigo = self.jugador2
-        self.jugador2.enemigo = self.jugador1
 
         self.id = 0
-        self.imagen = self.jugador1.persona_viva[0]
-        self.rect_persona = self.jugador1.image_rect
+        self.ide = 0
         self.izquierda = False if self.net.id == "0" else True
+        self.op_izquierda = True if self.izquierda == False else False
+        personaje2 = self.jugador_data(self.net.send(
+                str(self.net.id)+":"+ str(self.jugador1.image_rect.x)+","+str(self.jugador1.image_rect.y)))
+        if personaje2 != "":
+            self.jugador2 = Jugador(personaje2,self.jugador2)
+        else:
+            self.jugador2 = None
+        
         self.set_nombre_ventana("Jugando")
         self.handle_events()
         self.update()
 
+    
     @staticmethod
-    #Los une y lo hace por cada host
-    def parse_data(data):
+    def jugador_data(data):
         try:
-            d = data.split(":")[1]
-            return d
+            return data.split(":")[1].split(",")[2]
         except:
             return ""
 
+    @staticmethod
+    def parse_data(data):
+        try:
+            d = data.split(":")[1].split(",")
+            bol = True if d[3] == "si" else False
+            return int(d[0]), int(d[1]), d[2], bol, int(d[4]), int(d[5])
+        except:
+            return 0,0,"",True,0,100
+
     def handle_events(self):
-        global personaje
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w] and self.rect_persona.y > (400-self.rect_persona.height):
+
+        if keys[pygame.K_w] and self.jugador1.image_rect.y > (400-self.jugador1.image_rect.height):
             self.id += 1
             if self.id > 2:
                 self.id = 0
-            if self.izquierda:
-                self.imagen = pygame.transform.flip(self.jugador1.persona_viva[self.id],True,False)
-            else:
-                self.imagen = self.jugador1.persona_viva[self.id]
-            self.rect_persona.y -= velocidad_v
-        if keys[pygame.K_s] and self.rect_persona.y < (600-self.rect_persona.height):
+            self.jugador1.image_rect.y -= velocidad_v
+        if keys[pygame.K_s] and self.jugador1.image_rect.y < (600-self.jugador1.image_rect.height):
             self.id += 1
             if self.id > 2:
                 self.id = 0
-            if self.izquierda:
-                self.imagen = pygame.transform.flip(self.jugador1.persona_viva[self.id],True,False)
-            else:
-                self.imagen = self.jugador1.persona_viva[self.id]
-            self.rect_persona.y += velocidad_v
-        if keys[pygame.K_a] and self.rect_persona.x > 0:
+            self.jugador1.image_rect.y += velocidad_v
+        if keys[pygame.K_a] and self.jugador1.image_rect.x > 0:
             self.id += 1
             if self.id > 2:
                 self.id = 0
-            self.imagen = pygame.transform.flip(self.jugador1.persona_viva[self.id],True,False)
             self.izquierda = True
-            self.rect_persona.x -= velocidad_h
-        if keys[pygame.K_d] and self.rect_persona.x < (800-self.rect_persona.width):
+            self.jugador1.image_rect.x -= velocidad_h
+        if keys[pygame.K_d] and self.jugador1.image_rect.x < (800-self.jugador1.image_rect.width):
             self.id += 1
             if self.id > 2:
                 self.id = 0
-            self.imagen = self.jugador1.persona_viva[self.id]
             self.izquierda = False
-            self.rect_persona.x += velocidad_h
+            self.jugador1.image_rect.x += velocidad_h
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit(); sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_b:
+                    if self.jugador2 != None:
+                        if self.jugador1.image_rect.colliderect(self.jugador2.image_rect) and self.jugador1.image_rect.y == self.jugador2.image_rect.y:
+                            self.jugador2.bajar_vida()
+                        
+
+    def determinar_fin(self):
+        if self.jugador1.vida <= 0:
+            time.sleep(10)
+            fuente = pygame.font.SysFont("Verdana", 30)
+            texto = fuente.render("PERDISTE, "+apodo,0,(0,0,0))
+            self.canvas.blit(texto,(350,0))
+            """time.sleep(10)
+            self.manager.cambiar_pantalla(Login(self.manager))"""
+        elif self.jugador2.vida <= 0:
+            fuente = pygame.font.SysFont("Verdana", 30)
+            texto = fuente.render("GANASTE, "+apodo,0,(0,0,0))
+            self.canvas.blit(texto,(350,0))
+            """time.sleep(10)
+            self.manager.cambiar_pantalla(Login(self.manager))"""
+
+    def update(self):
+        global personaje2
+        izq = "si" if self.izquierda == True else "no"
+        vida = 100 if self.jugador2 == None else self.jugador2.vida
+        x,y,personaje2,izquierda,self.ide,self.jugador1.vida = self.parse_data(self.net.send(
+                str(self.net.id)+":"+str(self.jugador1.image_rect.x)+","+str(self.jugador1.image_rect.y)+","+personaje1+","+izq+","+str(self.id)+","+str(vida)))
+        if self.jugador2 == None and personaje2 != "":
+            self.jugador2 = Jugador(personaje2,self.jugador2)
+        elif personaje2 != "":
+            self.jugador2.image_rect.x = x
+            self.jugador2.image_rect.y = y
+        self.op_izquierda = izquierda
 
     def render(self):
         surf = pygame.Surface((self.sprites["fondo"].ancho, self.sprites["fondo"].alto))
         self.canvas.blit(self.sprites["fondo"].image, surf.get_rect(topleft=(self.sprites["fondo"].x, self.sprites["fondo"].y)))
-        self.canvas.blit(self.imagen, self.rect_persona)
+        if self.izquierda == True:
+            self.canvas.blit(pygame.transform.flip(self.jugador1.persona_viva[self.id],True,False),self.jugador1.image_rect)
+        else:
+            self.canvas.blit(self.jugador1.persona_viva[self.id], self.jugador1.image_rect)
+        if self.op_izquierda == True and self.jugador2 != None:
+            self.canvas.blit(pygame.transform.flip(self.jugador2.persona_viva[self.ide],True,False),self.jugador2.image_rect)
+        elif self.jugador2 != None:
+            self.canvas.blit(self.jugador2.persona_viva[self.ide], self.jugador2.image_rect)
+        if self.jugador2 != None:
+            self.determinar_fin()
         pygame.display.flip()
 
 class Login(Pantalla):
