@@ -14,8 +14,6 @@ class KeyModuleTest(unittest.TestCase):
     def test_import(self):
         import pygame.key
 
-
-
     def test_get_pressed(self):
         states = pygame.key.get_pressed()
         self.assertEqual(states[pygame.K_RIGHT], 0)
