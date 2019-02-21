@@ -2,6 +2,7 @@ import unittest
 from pygame import *
 from pantalla import *
 
+
 class RectTypeTest(unittest.TestCase):
     def testConstructionXYWidthHeight(self):
         param=0
