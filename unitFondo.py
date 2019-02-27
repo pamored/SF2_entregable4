@@ -10,7 +10,7 @@ class RectTypeTest(unittest.TestCase):
         r = login.sprites["background"].image.get_rect()
         self.assertEqual(0, r.left)
         self.assertEqual(0, r.top)
-        self.assertEqual(800, r.width)
+        self.assertEqual(1000, r.width)
         self.assertEqual(600, r.height)
 
     def testConstructionTopLeftSize(self):
